@@ -81,7 +81,7 @@ a:hover {
 #wrapper {
 	width:969px;
 	margin:0 auto;
-	margin-top:60px;
+	margin-top:10px;
 	margin-bottom:100px;
 }
 
@@ -123,7 +123,7 @@ a:hover {
 	margin:0 auto;
 	background-image:url(../images/ptop.jpg);
 	background-repeat:no-repeat;
-	height:126px;
+	height:100px;
 }
 
 #paper-mid {
@@ -158,8 +158,8 @@ a:hover {
 }
 
 h1  {
-	width:250px;
-	font-size:42px;
+	width:350px;
+	font-size:34px;
 	color:#315a60;
 	margin-bottom:3px;
 	clear:both;
