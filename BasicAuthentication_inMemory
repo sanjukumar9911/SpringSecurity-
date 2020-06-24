@@ -1,0 +1,37 @@
+package com.esrx.services.cbar.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Configuration
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+
+	@Value("${com.cbar.uname}")
+	private String uname;
+
+	@Value("${com.cbar.pname}")
+	private String pname;
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder managerBuilder) throws Exception{
+		managerBuilder.inMemoryAuthentication()
+		.withUser(uname).password("{noop}"+pname).roles("USER");
+		//	               .and() .withUser("a"+uname).password("{noop}"+pname).roles("ADMIN");
+	}
+
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.httpBasic().and().authorizeRequests()
+		// .antMatchers("**").hasRole("USER")
+		.antMatchers("**/v1/cbar/**","/v1/cbar/**").hasRole("USER").anyRequest().permitAll()
+		.and().csrf().disable().headers().frameOptions().disable();
+	}
+}
