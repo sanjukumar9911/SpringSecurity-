@@ -1,0 +1,10 @@
+com\esrx\services\benefit\group\onboarding\entity\ProductEntity.class
+com\esrx\services\benefit\group\onboarding\mongo\Domain.class
+com\esrx\services\benefit\group\onboarding\repository\ProductRepository.class
+com\esrx\services\benefit\group\onboarding\conditionalproperty\TestBeanondition.class
+com\esrx\services\benefit\group\onboarding\controller\ProductController.class
+com\esrx\services\benefit\group\onboarding\BenefitGroupOnboardingApplication.class
+com\esrx\services\benefit\group\onboarding\conditionalproperty\ConditionTest.class
+com\esrx\services\benefit\group\onboarding\mongorepository\DomainRepository.class
+com\esrx\services\benefit\group\onboarding\config\SwaggerConfig.class
+com\esrx\services\benefit\group\onboarding\controller\DomainController.class

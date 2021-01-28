@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.esrx.services.benefit.group.onboarding.BenefitGroupOnboardingApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.503 s - in com.esrx.services.benefit.group.onboarding.BenefitGroupOnboardingApplicationTests
