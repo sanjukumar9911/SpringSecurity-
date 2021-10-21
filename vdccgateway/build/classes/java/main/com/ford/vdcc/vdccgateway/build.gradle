@@ -1,0 +1,95 @@
+buildscript {
+	ext {
+		springBootVersion = '2.3.1.RELEASE'
+		javaVersion = 1.8
+	}
+}
+
+plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'org.springframework.boot' version "${springBootVersion}"
+	id 'gradle-boost' version '3.0.2'
+}
+
+group = 'com.ford.vdcc'
+version = '0.0.1-SNAPSHOT'
+archivesBaseName = 'vdccgateway'
+sourceCompatibility = "${javaVersion}"
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url "https://www.nexus.ford.com/repository/external-proxy-group/" }
+	maven { url "https://www.nexus.ford.com/repository/public" }
+}
+
+configurations.all {
+	exclude module: 'slf4j-log4j12'
+	exclude module: 'log4j-slf4j-impl'
+	exclude group: 'javax.activation'
+	exclude group: 'javax.annotation'
+	exclude group: 'javax.inject'
+	exclude group: 'javax.jdo'
+	//exclude group: 'javax.servlet'
+	exclude group: 'javax.transaction'
+	exclude group: 'javax.ws.rs'
+	exclude group: 'javax.xml.bind'
+	exclude group: 'org.eclipse.jetty'
+}
+
+dependencies {
+	bomImport platform('org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR5')
+	bomImport platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+	bomImport platform('io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.2.4.RELEASE')
+
+	//cloud gateway
+	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+	implementation ('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {
+		exclude group: "org.springframework.boot", module: "spring-boot-starter-web"
+	}
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//service registry
+	//implementation 'io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry'
+
+	///BEGIN - CVE Patches - overriding transitive dependencies to address CVE's
+	implementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
+
+	// https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+	implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.17'
+
+	///END - CVE Patches
+
+	/*********** TEST ***********/
+
+	testImplementation 'com.ford.cloudnative:spring-base-test:2.3.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+// https://mvnrepository.com/artifact/org.json/json
+	implementation group: 'org.json', name: 'json', version: '20210307'
+
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.8.0'
+
+	//other
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.7'
+
+	implementation 'com.googlecode.json-simple:json-simple:1.1'
+
+
+}
+
