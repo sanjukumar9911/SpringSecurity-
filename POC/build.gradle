@@ -1,0 +1,86 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'org.springframework.boot' version '2.3.10.RELEASE'
+	id 'gradle-boost' version '3.2.0'
+	id 'org.sonarqube' version '2.7.1'
+	id 'jacoco'
+}
+
+
+group = 'com.ford.vdcc'
+version = gradleBoost.fn.gitVersion()
+println "Build Version = ${version ?: '[none]'}"
+
+configurations.all {
+	exclude module: 'slf4j-log4j12'
+	exclude module: 'log4j-slf4j-impl'
+	exclude group: 'javax.activation'
+	exclude group: 'javax.annotation'
+	exclude group: 'javax.inject'
+	exclude group: 'javax.jdo'
+	exclude group: 'javax.servlet'
+	exclude group: 'javax.transaction'
+	exclude group: 'javax.ws.rs'
+	exclude group: 'javax.xml.bind'
+	exclude group: 'org.eclipse.jetty'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Bill Of Materials Imports
+	bomImport platform('org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR11')
+	bomImport platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+	bomImport platform('io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.2.4.RELEASE')
+
+	//Core libraries
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'com.ford.cloudnative:spring-boot-starter-ford:2.5.0'
+	implementation 'com.google.code.gson:gson:2.8.7'
+	implementation 'com.h2database:h2'
+	implementation 'org.apache.hadoop:hadoop-common:3.1.1'
+	implementation 'org.apache.hive:hive-jdbc:3.1.2'
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:8.4.0.jre8'
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+	implementation 'org.eclipse.jetty:jetty-server:9.4.31.v20200723'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+
+	compile 'org.apache.commons:commons-csv:1.8'
+	//swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.ford.cloudnative:spring-base-security:1.0.4-RELEASE'
+
+	//config server
+	//implementation 'io.pivotal.spring.cloud:spring-cloud-services-starter-config-client'
+	//localOnly 'org.springframework.cloud:spring-cloud-config-server'
+
+	//cloud bus - used by config server
+	//implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
+	//other
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	///BEGIN - CVE Patches - overriding transitive dependencies to address CVE's
+
+	///END - CVE Patches
+
+
+	/*********** TEST libs ***********/
+
+	testImplementation 'com.ford.cloudnative:spring-base-test:2.3.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+}

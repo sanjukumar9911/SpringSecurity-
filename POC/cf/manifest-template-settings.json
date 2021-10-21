@@ -1,0 +1,26 @@
+{
+  "dev-edc1" : {
+    "appHostSuffix": "-dev",
+    "springCloudConfigProfiles": "edc1,dev,dev-edc1",
+    "appInstances": 1,
+    "logLevel": "DEBUG"
+  },
+  "dev-edc2" : {
+    "appHostSuffix": "-dev",
+    "springCloudConfigProfiles": "edc2,dev,dev-edc2",
+    "appInstances": 1,
+    "logLevel": "DEBUG"
+  },
+  "prod-edc1" : {
+    "appHostSuffix": "",
+    "springCloudConfigProfiles": "edc1,prod,prod-edc1",
+    "appInstances": 2,
+    "logLevel": "WARN"
+  },
+  "prod-edc2" : {
+    "appHostSuffix": "",
+    "springCloudConfigProfiles": "edc2,prod,prod-edc2",
+    "appInstances": 2,
+    "logLevel": "WARN"
+  }
+}

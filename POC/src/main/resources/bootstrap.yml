@@ -1,0 +1,24 @@
+spring.application.name: vdcc-service-poc
+
+## LOCAL CLOUD-CONFIG
+##
+## With 'spring-cloud-config-server' dependency and boostrap mode enabled, we can instruct our application to fetch 
+## configuration using the local cloud-config definition below (alternatively to making an HTTP call to fetch the configuration).
+##
+## We can define the local cloud-config in such a way that it points to a local copy of our config repo(s). Thus, it is possible
+## that we can test configuration changes locally without actually committing them.
+##
+## Our local strategy is to duplicate the actual configuration used to configure the real cloud-config server and replace all
+## git repo references to point to local-copy of the repos instead.
+## NOTE: cloud-config server configuration is defined in JSON while our local cloud-config configuration must be defined in YAML
+## 
+## Also to avoid the possibility that our bootstrap configuration takes effect in the deployed cloud environment, we rely
+## on local-only environment variables and defining the 'spring-cloud-config-server' dependency using the localOnly Gradle configuration.
+## 
+## WARNING: bootstrap mode may override --debug startup option
+##
+
+spring.cloud.config.server.bootstrap: ${LOCAL_CLOUD_CONFIG_BOOTSTRAP:false}
+
+# config server yml configuration (should match cloud config server configuration with the exception that git repo reference local repos)
+spring.cloud.config.server.git.uri: file:${LOCAL_CLOUD_CONFIG_DIR:}

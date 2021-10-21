@@ -1,0 +1,17 @@
+---
+applications:
+- name: vdcc-poc${appHostSuffix}
+  path: ${build.artifactPath}
+  buildpacks:
+  - java_buildpack_offline
+  memory: 1G
+  instances: ${appInstances}
+  services:
+  - vdcc-rabbit
+#  - vdcc-config-server
+  env:
+    JAVA_OPTS: -Dlogging.level.org.springframework.web=${logLevel}
+    SPRING_CLOUD_CONFIG_PROFILE: ${springCloudConfigProfiles}
+
+#Note:  Config Server service, if enabled and configured, is programmed to lazy bind to the app using pipeline/pipeline.app-pre-start-script.sh.
+#       App teams shall later switch to manifest file binding approach, if needed.
